@@ -2,6 +2,7 @@ module;
 import Spell;
 import Book;
 import Sorcerer;
+import Guild;
 #include <iostream>
 #include <fstream>
 #include <string>
@@ -260,6 +261,11 @@ export void printBooks(Sorcerer& sorcererr)
 export void printBookSpells(Sorcerer& sorcererr, int& b_idx)
 {
     std::cout << "\n--- " << sorcererr.getBookName(b_idx) << " ---\n";
+    if (sorcererr.getBook(b_idx).size() == 0)
+    {
+        std::cout << "Книга пуста.\n";
+        return;
+    }
     for (size_t i = 0; i < sorcererr.getBook(b_idx).size(); ++i) {
         const Spell* s = sorcererr.getBook(b_idx).at(i);
         if (s) s->printConsole(std::cout);
@@ -282,4 +288,18 @@ export bool getIndexes(Sorcerer& sorcererr, int& b_idx, int& s_idx)
     printBookSpells(sorcererr, b_idx);
     s_idx = readIntInRange("Индекс заклинания: ", 0, static_cast<int>(sorcererr.getBook(b_idx).size()) - 1);
     return true;
+}
+
+//================================================================================
+
+// Запросить у пользователя имя существующего чародея
+// Возвращает указатель на чародея или nullptr
+export Sorcerer* selectMember(Guild& g)
+{
+    if (g.size() == 0) { std::cout << "Гильдия пуста.\n"; return nullptr; }
+    g.printMembers();
+    std::string name = readNonEmptyString("Имя чародея: ");
+    Sorcerer* sr = g.getMember(name);
+    if (!sr) std::cout << "Чародей '" << name << "' не найден.\n";
+    return sr;
 }

@@ -1,6 +1,7 @@
 import Spell;
 import Book;
 import Sorcerer;
+import Guild;
 import Tools;
 #include <iostream>
 #include <Windows.h>
@@ -9,7 +10,9 @@ import Tools;
 const std::string SAVE_FILE = "sorcerer_save.txt";
 
 
-// Пространство Чародей
+// ============================ Меню чародея ====================================
+
+
 namespace sorcerer
 {
     // Перечисление пунктов меню
@@ -30,9 +33,9 @@ namespace sorcerer
     };
 
     // Отображение главного меню
-    MenuOption showMenu()
+    MenuOption showMenu(Sorcerer& s)
     {
-        std::cout << "\n--- Меню Чародея ---\n";
+        std::cout << "\n--- Меню Чародея [" << s.getName() << "] ---\n";
         std::cout << "1.  Просмотреть книгу\n";
         std::cout << "2.  Добавить книгу\n";
         std::cout << "3.  Удалить книгу\n";
@@ -150,9 +153,110 @@ namespace sorcerer
 
         case MenuOption::EXIT:
         {
-            std::cout << "Завершение работы.\n";
+            std::cout << "Возврат к меню гильдии.\n";
             break;
         }
+        }
+    }
+}
+
+
+// ============================ Меню гильдии ====================================
+
+
+namespace guild_ui
+{
+    enum class MenuOption : int {
+        VIEW_MEMBERS = 1,   // посмотреть всех чародеев
+        ADD_MEMBER,         // добавить чародея
+        REMOVE_MEMBER,      // удалить чародея
+        RENAME_MEMBER,      // переименовать чародея
+        MANAGE_MEMBER,      // управлять конкретным чародеем (его меню)
+        VIEW_STATS,         // статистика по гильдии
+        EXIT                // выход из гильдии
+    };
+
+    MenuOption showMenu(const Guild& g)
+    {
+        std::cout << "\n=== Гильдия [" << g.getName() << "] | Членов: " << g.size() << " ===\n"
+            << "1. Список чародеев\n"
+            << "2. Добавить чародея\n"
+            << "3. Удалить чародея\n"
+            << "4. Переименовать чародея\n"
+            << "5. Управлять чародеем\n"
+            << "6. Статистика гильдии\n"
+            << "7. Выход\n";
+
+        while (true) {
+            int choice = readInt("Выберите пункт: ");
+            if (choice >= 1 && choice <= 7) {
+                return static_cast<MenuOption>(choice);
+            }
+            std::cout << "Ошибка: выберите пункт от 1 до 7.\n";
+        }
+    }
+
+    void executeOption(Guild& g, MenuOption opt)
+    {
+        switch (opt)
+        {
+        case MenuOption::VIEW_MEMBERS:
+        {
+            g.printMembers();
+            break;
+        }
+
+        case MenuOption::ADD_MEMBER: 
+        {
+            std::string name = readNonEmptyString("Имя нового чародея: ");
+            if (g.addMember(name)) {
+                // Стартовая книга для нового чародея
+                g.getMember(name)->addBook("Гримуар новичка");
+                std::cout << "Чародей '" << name << "' принят в гильдию.\n";
+            }
+            break;
+        }
+
+        case MenuOption::REMOVE_MEMBER: 
+        {
+            Sorcerer* sr = selectMember(g);
+            if (!sr) break;
+            std::string name = sr->getName();
+            if (g.removeMember(name))
+                std::cout << "Чародей '" << name << "' исключён из гильдии.\n";
+            break;
+        }
+
+        case MenuOption::RENAME_MEMBER: {
+            Sorcerer* sr = selectMember(g);
+            if (!sr) break;
+            std::string old_name = sr->getName();
+            std::string new_name = readNonEmptyString("Новое имя: ");
+            if (g.renameMember(old_name, new_name))
+                std::cout << "Переименован: " << old_name << " -> " << new_name << '\n';
+            break;
+        }
+
+        case MenuOption::MANAGE_MEMBER: {
+            // Выбрать чародея и войти в его личное меню
+            Sorcerer* sr = selectMember(g);
+            if (!sr) break;
+            //std::cout << "\n[Управление: " << sr->getName() << "]\n";
+            sorcerer::MenuOption sopt{};
+            do {
+                sopt = sorcerer::showMenu(*sr);
+                sorcerer::executeOption(*sr, sopt);
+            } while (sopt != sorcerer::MenuOption::EXIT);
+            break;
+        }
+
+        case MenuOption::VIEW_STATS:
+            // Пока заглушка — полная статистика будет на шаге 6
+            break;
+
+        case MenuOption::EXIT:
+            std::cout << "Выход из гильдии.\n";
+            break;
         }
     }
 }
@@ -164,32 +268,13 @@ int main()
     SetConsoleCP(65001);
     //std::cout << "AAA\n";               // проверка сборки на наличие мнимых ошибок от vs
 
-    Sorcerer sorcerer;
+    Guild guild("Орден Пепла");
 
-    // Автоматическая загрузка состояния при старте
-    if (sorcerer.loadState(SAVE_FILE)) {
-        std::cout << "Прогресс чародея [" << sorcerer.getName() << "] восстановлен. Мана: " << sorcerer.getMana()
-            << ", Время: " << Spell::minutesToString(sorcerer.getTime()) << '\n';
-    }
-    else {
-        std::cout << "Сохранение не найдено. Начинаем новую игру.\n";
-        sorcerer.addBook("Гримуар новичка"); // Стартовая книга
-    }
-
-    sorcerer::MenuOption currentOption{};
+    guild_ui::MenuOption opt{};
     do {
-        currentOption = sorcerer::showMenu();
-        sorcerer::executeOption(sorcerer, currentOption);
-
-    } while (currentOption != sorcerer::MenuOption::EXIT);
-
-    // Автоматическое сохранение при выходе
-    if (sorcerer.saveState(SAVE_FILE)) {
-        std::cout << "Прогресс сохранён.\n";
-    }
-    else {
-        std::cout << "Ошибка сохранения!\n";
-    }
+        opt = guild_ui::showMenu(guild);
+        guild_ui::executeOption(guild, opt);
+    } while (opt != guild_ui::MenuOption::EXIT);
 
     return 0;
 }

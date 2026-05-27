@@ -125,6 +125,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Book.ixx" />
+    <ClCompile Include="Guild.ixx" />
     <ClCompile Include="Sorcerer.ixx" />
     <ClCompile Include="Spell.ixx" />
     <ClCompile Include="Tools.ixx" />

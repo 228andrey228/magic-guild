@@ -32,6 +32,7 @@ private:
 
 public:
     Sorcerer();
+    Sorcerer(const std::string& name);
 
     // Управление книгами
     bool addBook(const std::string& name);
@@ -67,13 +68,14 @@ public:
     // Сеттер имени (нужен для переименования в гильдии)
     void setName(const std::string& name) { name_ = name; }
 
-    // Сравнение по имени (нужно для std::map/std::set)
+    // Сравнение по имени (нужно для std::map)
     bool operator==(const Sorcerer& other) const { return name_ == other.name_; }
     bool operator< (const Sorcerer& other) const { return name_ < other.name_; }
 };
 
 // Конструктор с начальными параметрами
 Sorcerer::Sorcerer() : mana_(100), max_mana_(100), current_time_(0) {}
+Sorcerer::Sorcerer(const std::string& name) : name_(name), mana_(100), max_mana_(100), current_time_(0) {}
 
 // Добавление новой книги в коллекцию
 bool Sorcerer::addBook(const std::string& name)
