@@ -12,7 +12,7 @@ module;
 #include <array>
 export module Spell__Lab2_;
 
-// Перечисление стихий заклинаний
+// РџРµСЂРµС‡РёСЃР»РµРЅРёРµ СЃС‚РёС…РёР№ Р·Р°РєР»РёРЅР°РЅРёР№
 export enum class Element : int
 {
     WATER = 1,
@@ -21,11 +21,11 @@ export enum class Element : int
     FIRE = 4
 };
 
-// ПРАВКА ВЫПОЛНЕНА
-export std::array<std::string, 4> ELEMENT_NAMES = { "Вода", "Земля", "Воздух", "Огонь" };
+// РџР РђР’РљРђ Р’Р«РџРћР›РќР•РќРђ
+export std::array<std::string, 4> ELEMENT_NAMES = { "Р’РѕРґР°", "Р—РµРјР»СЏ", "Р’РѕР·РґСѓС…", "РћРіРѕРЅСЊ" };
 // ---
 
-// Структура заклинания
+// РЎС‚СЂСѓРєС‚СѓСЂР° Р·Р°РєР»РёРЅР°РЅРёСЏ
 export struct Spell
 {
 private:
@@ -42,7 +42,7 @@ private:
 public:
     Spell() : mana_(0), power_(0), duration_minutes_(0), min_level_(1) {}
 
-    // Геттеры для доступа к приватным полям
+    // Р“РµС‚С‚РµСЂС‹ РґР»СЏ РґРѕСЃС‚СѓРїР° Рє РїСЂРёРІР°С‚РЅС‹Рј РїРѕР»СЏРј
     const std::string& getName() const { return name_; }
     const std::string& getDescription() const { return description_; }
     Element getElement() const { return elem_; }
@@ -53,7 +53,7 @@ public:
     std::chrono::minutes getStartTime() const { return start_time_; }
     std::chrono::minutes getEndTime() const { return end_time_; }
 
-    // Сеттеры для модификации полей
+    // РЎРµС‚С‚РµСЂС‹ РґР»СЏ РјРѕРґРёС„РёРєР°С†РёРё РїРѕР»РµР№
     void setName(const std::string& name) { name_ = name; }
     void setDescription(const std::string& desc) { description_ = desc; }
     void setElement(Element elem) { elem_ = elem; }
@@ -66,26 +66,26 @@ public:
         end_time_ = end;
     }
 
-    // Проверка доступности заклинания в указанное время суток
+    // РџСЂРѕРІРµСЂРєР° РґРѕСЃС‚СѓРїРЅРѕСЃС‚Рё Р·Р°РєР»РёРЅР°РЅРёСЏ РІ СѓРєР°Р·Р°РЅРЅРѕРµ РІСЂРµРјСЏ СЃСѓС‚РѕРє
     bool isAvailableAtTime(std::chrono::minutes time) const;
 
-    // Преобразование количества минут в строку формата "ЧЧ:ММ"
+    // РџСЂРµРѕР±СЂР°Р·РѕРІР°РЅРёРµ РєРѕР»РёС‡РµСЃС‚РІР° РјРёРЅСѓС‚ РІ СЃС‚СЂРѕРєСѓ С„РѕСЂРјР°С‚Р° "Р§Р§:РњРњ"
     static std::string minutesToString(std::chrono::minutes time);
 
-    // Оператор сравнения для удаления по значению
+    // РћРїРµСЂР°С‚РѕСЂ СЃСЂР°РІРЅРµРЅРёСЏ РґР»СЏ СѓРґР°Р»РµРЅРёСЏ РїРѕ Р·РЅР°С‡РµРЅРёСЋ
     bool operator==(const Spell& other) const { return name_ == other.name_; }
 
-    // Вывод в читаемом формате (для консоли)
+    // Р’С‹РІРѕРґ РІ С‡РёС‚Р°РµРјРѕРј С„РѕСЂРјР°С‚Рµ (РґР»СЏ РєРѕРЅСЃРѕР»Рё)
     void printConsole(std::ostream& os) const;
 };
 
-// Реализация преобразования стихии в строку
+// Р РµР°Р»РёР·Р°С†РёСЏ РїСЂРµРѕР±СЂР°Р·РѕРІР°РЅРёСЏ СЃС‚РёС…РёРё РІ СЃС‚СЂРѕРєСѓ
 export std::string elementToString(Element elem) {
     int idx = static_cast<int>(elem) - 1;
-    return (idx >= 0 && idx < 4) ? ELEMENT_NAMES[idx] : "Неизвестно";
+    return (idx >= 0 && idx < 4) ? ELEMENT_NAMES[idx] : "РќРµРёР·РІРµСЃС‚РЅРѕ";
 }
 
-// Оператор вывода в поток для структуры Spell (для файла)
+// РћРїРµСЂР°С‚РѕСЂ РІС‹РІРѕРґР° РІ РїРѕС‚РѕРє РґР»СЏ СЃС‚СЂСѓРєС‚СѓСЂС‹ Spell (РґР»СЏ С„Р°Р№Р»Р°)
 export std::ostream& operator<<(std::ostream& os, const Spell& spell)
 {
     os << spell.getName() << '\n'
@@ -100,28 +100,28 @@ export std::ostream& operator<<(std::ostream& os, const Spell& spell)
     return os;
 }
 
-// Вывод в читаемом формате (для консоли)
+// Р’С‹РІРѕРґ РІ С‡РёС‚Р°РµРјРѕРј С„РѕСЂРјР°С‚Рµ (РґР»СЏ РєРѕРЅСЃРѕР»Рё)
 void Spell::printConsole(std::ostream& os) const
 {
-    os << "=== Заклинание ===\n"
-        << "Название: " << getName() << '\n'
-        << "Описание: " << getDescription() << '\n'
-        << "Стихия: " << elementToString(elem_) << '\n'
-        << "Мана: " << getMana() << '\n'
-        << "Сила: " << getPower() << '\n'
-        << "Мин. уровень: " << getMinLevel() << '\n'
-        << "Длительность (мин): " << getDurationMinutes() << '\n'
-        << "Время применения: " << minutesToString(getStartTime())
+    os << "=== Р—Р°РєР»РёРЅР°РЅРёРµ ===\n"
+        << "РќР°Р·РІР°РЅРёРµ: " << getName() << '\n'
+        << "РћРїРёСЃР°РЅРёРµ: " << getDescription() << '\n'
+        << "РЎС‚РёС…РёСЏ: " << elementToString(elem_) << '\n'
+        << "РњР°РЅР°: " << getMana() << '\n'
+        << "РЎРёР»Р°: " << getPower() << '\n'
+        << "РњРёРЅ. СѓСЂРѕРІРµРЅСЊ: " << getMinLevel() << '\n'
+        << "Р”Р»РёС‚РµР»СЊРЅРѕСЃС‚СЊ (РјРёРЅ): " << getDurationMinutes() << '\n'
+        << "Р’СЂРµРјСЏ РїСЂРёРјРµРЅРµРЅРёСЏ: " << minutesToString(getStartTime())
         << " - " << minutesToString(getEndTime()) << "\n\n";
 }
 
-// Валидация часов и минут для времени суток
+// Р’Р°Р»РёРґР°С†РёСЏ С‡Р°СЃРѕРІ Рё РјРёРЅСѓС‚ РґР»СЏ РІСЂРµРјРµРЅРё СЃСѓС‚РѕРє
 export bool isValidTime(int hours, int minutes)
 {
     return (hours >= 0 && hours < 24) && (minutes >= 0 && minutes < 60);
 }
 
-// Парсинг времени из потока в формате "ЧЧ:ММ"
+// РџР°СЂСЃРёРЅРі РІСЂРµРјРµРЅРё РёР· РїРѕС‚РѕРєР° РІ С„РѕСЂРјР°С‚Рµ "Р§Р§:РњРњ"
 export bool parseTime(std::istream& is, std::chrono::minutes& out_time)
 {
     int h, m;
@@ -134,7 +134,7 @@ export bool parseTime(std::istream& is, std::chrono::minutes& out_time)
     return false;
 }
 
-// Оператор ввода из потока для структуры Spell
+// РћРїРµСЂР°С‚РѕСЂ РІРІРѕРґР° РёР· РїРѕС‚РѕРєР° РґР»СЏ СЃС‚СЂСѓРєС‚СѓСЂС‹ Spell
 export std::istream& operator>>(std::istream& in, Spell& spell)
 {
     std::string name, desc;
@@ -170,7 +170,7 @@ export std::istream& operator>>(std::istream& in, Spell& spell)
     return in;
 }
 
-// Реализация метода проверки доступности заклинания по времени
+// Р РµР°Р»РёР·Р°С†РёСЏ РјРµС‚РѕРґР° РїСЂРѕРІРµСЂРєРё РґРѕСЃС‚СѓРїРЅРѕСЃС‚Рё Р·Р°РєР»РёРЅР°РЅРёСЏ РїРѕ РІСЂРµРјРµРЅРё
 bool Spell::isAvailableAtTime(std::chrono::minutes time) const
 {
     if (start_time_ <= end_time_) {
@@ -179,7 +179,7 @@ bool Spell::isAvailableAtTime(std::chrono::minutes time) const
     return time >= start_time_ || time <= end_time_;
 }
 
-// Реализация преобразования минут в строку "ЧЧ:ММ"
+// Р РµР°Р»РёР·Р°С†РёСЏ РїСЂРµРѕР±СЂР°Р·РѕРІР°РЅРёСЏ РјРёРЅСѓС‚ РІ СЃС‚СЂРѕРєСѓ "Р§Р§:РњРњ"
 std::string Spell::minutesToString(std::chrono::minutes time)
 {
     auto total = time.count();
@@ -192,8 +192,8 @@ std::string Spell::minutesToString(std::chrono::minutes time)
 //============================================================================================
 
 
-// Шаблонный класс-контейнер для управления коллекцией объектов
-// В качестве хранилища используется std::vector для доступа по индексу и эффективной сортировки
+// РЁР°Р±Р»РѕРЅРЅС‹Р№ РєР»Р°СЃСЃ-РєРѕРЅС‚РµР№РЅРµСЂ РґР»СЏ СѓРїСЂР°РІР»РµРЅРёСЏ РєРѕР»Р»РµРєС†РёРµР№ РѕР±СЉРµРєС‚РѕРІ
+// Р’ РєР°С‡РµСЃС‚РІРµ С…СЂР°РЅРёР»РёС‰Р° РёСЃРїРѕР»СЊР·СѓРµС‚СЃСЏ std::vector РґР»СЏ РґРѕСЃС‚СѓРїР° РїРѕ РёРЅРґРµРєСЃСѓ Рё СЌС„С„РµРєС‚РёРІРЅРѕР№ СЃРѕСЂС‚РёСЂРѕРІРєРё
 export template<typename T>
 class SpellContainer
 {
@@ -201,46 +201,46 @@ private:
     std::vector<T> items_;
 
 public:
-    // Возвращает текущее количество элементов в контейнере
+    // Р’РѕР·РІСЂР°С‰Р°РµС‚ С‚РµРєСѓС‰РµРµ РєРѕР»РёС‡РµСЃС‚РІРѕ СЌР»РµРјРµРЅС‚РѕРІ РІ РєРѕРЅС‚РµР№РЅРµСЂРµ
     size_t size() const { return items_.size(); }
 
-    // Добавляет новый элемент в конец контейнера
+    // Р”РѕР±Р°РІР»СЏРµС‚ РЅРѕРІС‹Р№ СЌР»РµРјРµРЅС‚ РІ РєРѕРЅРµС† РєРѕРЅС‚РµР№РЅРµСЂР°
     void add(const T& item);
 
-    // Удаляет элемент по его индексу
+    // РЈРґР°Р»СЏРµС‚ СЌР»РµРјРµРЅС‚ РїРѕ РµРіРѕ РёРЅРґРµРєСЃСѓ
     bool removeByIndex(size_t index);
 
-    // Удаляет первый элемент, равный заданному значению
+    // РЈРґР°Р»СЏРµС‚ РїРµСЂРІС‹Р№ СЌР»РµРјРµРЅС‚, СЂР°РІРЅС‹Р№ Р·Р°РґР°РЅРЅРѕРјСѓ Р·РЅР°С‡РµРЅРёСЋ
     bool removeByValue(const T& item);
 
-    // Заменяет элемент по индексу на новый
+    // Р—Р°РјРµРЅСЏРµС‚ СЌР»РµРјРµРЅС‚ РїРѕ РёРЅРґРµРєСЃСѓ РЅР° РЅРѕРІС‹Р№
     bool changeElement(size_t index, const T& new_item);
 
-    // Выводит все элементы контейнера в указанный поток
+    // Р’С‹РІРѕРґРёС‚ РІСЃРµ СЌР»РµРјРµРЅС‚С‹ РєРѕРЅС‚РµР№РЅРµСЂР° РІ СѓРєР°Р·Р°РЅРЅС‹Р№ РїРѕС‚РѕРє
     void print(std::ostream& os) const;
 
-    // Загружает элементы из файла, заменяя текущее содержимое контейнера
+    // Р—Р°РіСЂСѓР¶Р°РµС‚ СЌР»РµРјРµРЅС‚С‹ РёР· С„Р°Р№Р»Р°, Р·Р°РјРµРЅСЏСЏ С‚РµРєСѓС‰РµРµ СЃРѕРґРµСЂР¶РёРјРѕРµ РєРѕРЅС‚РµР№РЅРµСЂР°
     bool loadFromFile(const std::string& filename);
 
-    // Сортирует элементы контейнера по заданному компаратору
+    // РЎРѕСЂС‚РёСЂСѓРµС‚ СЌР»РµРјРµРЅС‚С‹ РєРѕРЅС‚РµР№РЅРµСЂР° РїРѕ Р·Р°РґР°РЅРЅРѕРјСѓ РєРѕРјРїР°СЂР°С‚РѕСЂСѓ
     void sort(std::function<bool(const T&, const T&)> comparator);
 
-    // Возвращает новый контейнер с элементами, удовлетворяющими предикату
+    // Р’РѕР·РІСЂР°С‰Р°РµС‚ РЅРѕРІС‹Р№ РєРѕРЅС‚РµР№РЅРµСЂ СЃ СЌР»РµРјРµРЅС‚Р°РјРё, СѓРґРѕРІР»РµС‚РІРѕСЂСЏСЋС‰РёРјРё РїСЂРµРґРёРєР°С‚Сѓ
     template<typename Predicate>
     SpellContainer<T> select(Predicate pred) const;
 
-    // Безопасный доступ к элементу по индексу
+    // Р‘РµР·РѕРїР°СЃРЅС‹Р№ РґРѕСЃС‚СѓРї Рє СЌР»РµРјРµРЅС‚Сѓ РїРѕ РёРЅРґРµРєСЃСѓ
     const T* at(size_t index) const;
 };
 
-// Реализация метода добавления элемента
+// Р РµР°Р»РёР·Р°С†РёСЏ РјРµС‚РѕРґР° РґРѕР±Р°РІР»РµРЅРёСЏ СЌР»РµРјРµРЅС‚Р°
 template<typename T>
 void SpellContainer<T>::add(const T& item)
 {
     items_.push_back(item);
 }
 
-// Реализация удаления по индексу
+// Р РµР°Р»РёР·Р°С†РёСЏ СѓРґР°Р»РµРЅРёСЏ РїРѕ РёРЅРґРµРєСЃСѓ
 template<typename T>
 bool SpellContainer<T>::removeByIndex(size_t index)
 {
@@ -251,7 +251,7 @@ bool SpellContainer<T>::removeByIndex(size_t index)
     return false;
 }
 
-// Реализация удаления по значению
+// Р РµР°Р»РёР·Р°С†РёСЏ СѓРґР°Р»РµРЅРёСЏ РїРѕ Р·РЅР°С‡РµРЅРёСЋ
 template<typename T>
 bool SpellContainer<T>::removeByValue(const T& item)
 {
@@ -263,7 +263,7 @@ bool SpellContainer<T>::removeByValue(const T& item)
     return false;
 }
 
-// Реализация изменения элемента по индексу
+// Р РµР°Р»РёР·Р°С†РёСЏ РёР·РјРµРЅРµРЅРёСЏ СЌР»РµРјРµРЅС‚Р° РїРѕ РёРЅРґРµРєСЃСѓ
 template<typename T>
 bool SpellContainer<T>::changeElement(size_t index, const T& new_item)
 {
@@ -274,7 +274,7 @@ bool SpellContainer<T>::changeElement(size_t index, const T& new_item)
     return false;
 }
 
-// Реализация вывода в поток
+// Р РµР°Р»РёР·Р°С†РёСЏ РІС‹РІРѕРґР° РІ РїРѕС‚РѕРє
 template<typename T>
 void SpellContainer<T>::print(std::ostream& os) const
 {
@@ -285,7 +285,7 @@ void SpellContainer<T>::print(std::ostream& os) const
     );
 }
 
-// Реализация загрузки из файла
+// Р РµР°Р»РёР·Р°С†РёСЏ Р·Р°РіСЂСѓР·РєРё РёР· С„Р°Р№Р»Р°
 template<typename T>
 bool SpellContainer<T>::loadFromFile(const std::string& filename)
 {
@@ -294,7 +294,7 @@ bool SpellContainer<T>::loadFromFile(const std::string& filename)
         return false;
     }
 
-    // Сначала читаем во временный контейнер, чтобы не потерять данные при ошибке парсинга
+    // РЎРЅР°С‡Р°Р»Р° С‡РёС‚Р°РµРј РІРѕ РІСЂРµРјРµРЅРЅС‹Р№ РєРѕРЅС‚РµР№РЅРµСЂ, С‡С‚РѕР±С‹ РЅРµ РїРѕС‚РµСЂСЏС‚СЊ РґР°РЅРЅС‹Рµ РїСЂРё РѕС€РёР±РєРµ РїР°СЂСЃРёРЅРіР°
     std::vector<T> temp;
     std::copy(
         std::istream_iterator<T>(file),
@@ -310,14 +310,14 @@ bool SpellContainer<T>::loadFromFile(const std::string& filename)
     return true;
 }
 
-// Реализация сортировки
+// Р РµР°Р»РёР·Р°С†РёСЏ СЃРѕСЂС‚РёСЂРѕРІРєРё
 template<typename T>
 void SpellContainer<T>::sort(std::function<bool(const T&, const T&)> comparator)
 {
     std::sort(items_.begin(), items_.end(), comparator);
 }
 
-// Реализация фильтрации
+// Р РµР°Р»РёР·Р°С†РёСЏ С„РёР»СЊС‚СЂР°С†РёРё
 template<typename T>
 template<typename Predicate>
 SpellContainer<T> SpellContainer<T>::select(Predicate pred) const
@@ -332,7 +332,7 @@ SpellContainer<T> SpellContainer<T>::select(Predicate pred) const
     return result;
 }
 
-// Реализация безопасного доступа к элементу
+// Р РµР°Р»РёР·Р°С†РёСЏ Р±РµР·РѕРїР°СЃРЅРѕРіРѕ РґРѕСЃС‚СѓРїР° Рє СЌР»РµРјРµРЅС‚Сѓ
 template<typename T>
 const T* SpellContainer<T>::at(size_t index) const
 {

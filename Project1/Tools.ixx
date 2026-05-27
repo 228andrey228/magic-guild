@@ -15,27 +15,27 @@ import Sorcerer__Lab3__;
 #include <Windows.h>
 export module Tools;
 
-// Очистка состояния потока ввода после ошибки
+// РћС‡РёСЃС‚РєР° СЃРѕСЃС‚РѕСЏРЅРёСЏ РїРѕС‚РѕРєР° РІРІРѕРґР° РїРѕСЃР»Рµ РѕС€РёР±РєРё
 export void clearInputStream()
 {
     std::cin.clear();
     std::cin.ignore(std::cin.rdbuf()->in_avail());
 }
 
-// Ввод целого числа с проверкой корректности
+// Р’РІРѕРґ С†РµР»РѕРіРѕ С‡РёСЃР»Р° СЃ РїСЂРѕРІРµСЂРєРѕР№ РєРѕСЂСЂРµРєС‚РЅРѕСЃС‚Рё
 export int readInt(const std::string& prompt = "")
 {
     int value{};
     std::cout << prompt;
     while (!(std::cin >> value)) {
-        std::cout << "Ошибка: введите целое число: ";
+        std::cout << "РћС€РёР±РєР°: РІРІРµРґРёС‚Рµ С†РµР»РѕРµ С‡РёСЃР»Рѕ: ";
         clearInputStream();
     }
     clearInputStream();
     return value;
 }
 
-// Ввод целого числа в заданном диапазоне [min, max]
+// Р’РІРѕРґ С†РµР»РѕРіРѕ С‡РёСЃР»Р° РІ Р·Р°РґР°РЅРЅРѕРј РґРёР°РїР°Р·РѕРЅРµ [min, max]
 export int readIntInRange(const std::string& prompt, int min_val, int max_val)
 {
     int value{};
@@ -45,12 +45,12 @@ export int readIntInRange(const std::string& prompt, int min_val, int max_val)
             clearInputStream();
             return value;
         }
-        std::cout << "Ошибка: значение вне диапазона.\n";
+        std::cout << "РћС€РёР±РєР°: Р·РЅР°С‡РµРЅРёРµ РІРЅРµ РґРёР°РїР°Р·РѕРЅР°.\n";
         clearInputStream();
     } while (true);
 }
 
-// Ввод непустой строки с консоли
+// Р’РІРѕРґ РЅРµРїСѓСЃС‚РѕР№ СЃС‚СЂРѕРєРё СЃ РєРѕРЅСЃРѕР»Рё
 export std::string readNonEmptyString(const std::string& prompt)
 {
     std::string result;
@@ -61,70 +61,70 @@ export std::string readNonEmptyString(const std::string& prompt)
     return result;
 }
 
-// Ввод имени файла с проверкой расширения .txt
+// Р’РІРѕРґ РёРјРµРЅРё С„Р°Р№Р»Р° СЃ РїСЂРѕРІРµСЂРєРѕР№ СЂР°СЃС€РёСЂРµРЅРёСЏ .txt
 export std::string readFilename()
 {
     std::string filename;
     const std::string ext = ".txt";
 
     do {
-        std::cout << "Имя файла: ";
+        std::cout << "РРјСЏ С„Р°Р№Р»Р°: ";
         std::getline(std::cin >> std::ws, filename);
         if (filename.length() >= ext.length() &&
             filename.compare(filename.length() - ext.length(), ext.length(), ext) == 0) {
             return filename;
         }
-        std::cout << "Ошибка: имя файла должно заканчиваться на .txt\n";
+        std::cout << "РћС€РёР±РєР°: РёРјСЏ С„Р°Р№Р»Р° РґРѕР»Р¶РЅРѕ Р·Р°РєР°РЅС‡РёРІР°С‚СЊСЃСЏ РЅР° .txt\n";
     } while (true);
 }
 
-// Ввод стихии через меню выбора
+// Р’РІРѕРґ СЃС‚РёС…РёРё С‡РµСЂРµР· РјРµРЅСЋ РІС‹Р±РѕСЂР°
 export Element readElement()
 {
     while (true) {
-        std::cout << "\nВыберите стихию:\n";
-        std::cout << "1 - Вода\n";
-        std::cout << "2 - Земля\n";
-        std::cout << "3 - Воздух\n";
-        std::cout << "4 - Огонь\n";
+        std::cout << "\nР’С‹Р±РµСЂРёС‚Рµ СЃС‚РёС…РёСЋ:\n";
+        std::cout << "1 - Р’РѕРґР°\n";
+        std::cout << "2 - Р—РµРјР»СЏ\n";
+        std::cout << "3 - Р’РѕР·РґСѓС…\n";
+        std::cout << "4 - РћРіРѕРЅСЊ\n";
 
-        int choice = readInt("Ваш выбор: ");
+        int choice = readInt("Р’Р°С€ РІС‹Р±РѕСЂ: ");
         if (choice >= 1 && choice <= 4) {
             return static_cast<Element>(choice);
         }
-        std::cout << "Ошибка: выберите число от 1 до 4.\n";
+        std::cout << "РћС€РёР±РєР°: РІС‹Р±РµСЂРёС‚Рµ С‡РёСЃР»Рѕ РѕС‚ 1 РґРѕ 4.\n";
     }
 }
 
-// Ввод времени в формате ЧЧ:ММ
+// Р’РІРѕРґ РІСЂРµРјРµРЅРё РІ С„РѕСЂРјР°С‚Рµ Р§Р§:РњРњ
 export std::chrono::minutes readTime()
 {
     while (true) {
-        std::cout << "Введите время (ЧЧ:ММ): ";
+        std::cout << "Р’РІРµРґРёС‚Рµ РІСЂРµРјСЏ (Р§Р§:РњРњ): ";
         int h, m;
         char colon;
         if (std::cin >> h >> colon >> m && colon == ':' && isValidTime(h, m)) {
             clearInputStream();
             return std::chrono::hours(h) + std::chrono::minutes(m);
         }
-        std::cout << "Ошибка: неверный формат времени.\n";
+        std::cout << "РћС€РёР±РєР°: РЅРµРІРµСЂРЅС‹Р№ С„РѕСЂРјР°С‚ РІСЂРµРјРµРЅРё.\n";
         clearInputStream();
     }
 }
 
-// Ввод полного заклинания с консоли
+// Р’РІРѕРґ РїРѕР»РЅРѕРіРѕ Р·Р°РєР»РёРЅР°РЅРёСЏ СЃ РєРѕРЅСЃРѕР»Рё
 export Spell readSpellFromConsole()
 {
     Spell spell;
 
-    std::cout << "\n--- Добавление заклинания ---\n";
-    spell.setName(readNonEmptyString("Название: "));
-    spell.setDescription(readNonEmptyString("Описание: "));
+    std::cout << "\n--- Р”РѕР±Р°РІР»РµРЅРёРµ Р·Р°РєР»РёРЅР°РЅРёСЏ ---\n";
+    spell.setName(readNonEmptyString("РќР°Р·РІР°РЅРёРµ: "));
+    spell.setDescription(readNonEmptyString("РћРїРёСЃР°РЅРёРµ: "));
     spell.setElement(readElement());
-    spell.setMana(readIntInRange("Мана", 0, 10000));
-    spell.setPower(readIntInRange("Сила", 0, 1000));
-    spell.setDurationMinutes(readIntInRange("Продолжительность (мин)", 0, 3600));
-    spell.setMinLevel(readIntInRange("Мин. уровень чародея", 1, 100));
+    spell.setMana(readIntInRange("РњР°РЅР°", 0, 10000));
+    spell.setPower(readIntInRange("РЎРёР»Р°", 0, 1000));
+    spell.setDurationMinutes(readIntInRange("РџСЂРѕРґРѕР»Р¶РёС‚РµР»СЊРЅРѕСЃС‚СЊ (РјРёРЅ)", 0, 3600));
+    spell.setMinLevel(readIntInRange("РњРёРЅ. СѓСЂРѕРІРµРЅСЊ С‡Р°СЂРѕРґРµСЏ", 1, 100));
 
     while (true) {
         auto start = readTime();
@@ -132,8 +132,8 @@ export Spell readSpellFromConsole()
         spell.setTimeRange(start, end);
 
         if (start > end) {
-            std::cout << "Внимание: интервал пересекает полночь.\n";
-            std::cout << "Подтвердить? (y/n): ";
+            std::cout << "Р’РЅРёРјР°РЅРёРµ: РёРЅС‚РµСЂРІР°Р» РїРµСЂРµСЃРµРєР°РµС‚ РїРѕР»РЅРѕС‡СЊ.\n";
+            std::cout << "РџРѕРґС‚РІРµСЂРґРёС‚СЊ? (y/n): ";
             char confirm;
             std::cin >> confirm;
             clearInputStream();
@@ -147,10 +147,10 @@ export Spell readSpellFromConsole()
     return spell;
 }
 
-// Пространство имён с предикатами и компараторами для фильтрации и сортировки
+// РџСЂРѕСЃС‚СЂР°РЅСЃС‚РІРѕ РёРјС‘РЅ СЃ РїСЂРµРґРёРєР°С‚Р°РјРё Рё РєРѕРјРїР°СЂР°С‚РѕСЂР°РјРё РґР»СЏ С„РёР»СЊС‚СЂР°С†РёРё Рё СЃРѕСЂС‚РёСЂРѕРІРєРё
 export namespace filters
 {
-    // Компаратор для сортировки по названию в алфавитном порядке
+    // РљРѕРјРїР°СЂР°С‚РѕСЂ РґР»СЏ СЃРѕСЂС‚РёСЂРѕРІРєРё РїРѕ РЅР°Р·РІР°РЅРёСЋ РІ Р°Р»С„Р°РІРёС‚РЅРѕРј РїРѕСЂСЏРґРєРµ
     /*auto byName = [](const Spell& a, const Spell& b) {
         return a.getName() < b.getName();
         };*/
@@ -161,7 +161,7 @@ export namespace filters
             };
     }
 
-    // Компаратор для сортировки по минимальному уровню по возрастанию
+    // РљРѕРјРїР°СЂР°С‚РѕСЂ РґР»СЏ СЃРѕСЂС‚РёСЂРѕРІРєРё РїРѕ РјРёРЅРёРјР°Р»СЊРЅРѕРјСѓ СѓСЂРѕРІРЅСЋ РїРѕ РІРѕР·СЂР°СЃС‚Р°РЅРёСЋ
     /*auto byMinLevel = [](const Spell& a, const Spell& b) {
         return a.getMinLevel() < b.getMinLevel();
         };*/
@@ -172,35 +172,35 @@ export namespace filters
             };
     }
 
-    // Предикат для выбора заклинаний по диапазону названий (включительно)
+    // РџСЂРµРґРёРєР°С‚ РґР»СЏ РІС‹Р±РѕСЂР° Р·Р°РєР»РёРЅР°РЅРёР№ РїРѕ РґРёР°РїР°Р·РѕРЅСѓ РЅР°Р·РІР°РЅРёР№ (РІРєР»СЋС‡РёС‚РµР»СЊРЅРѕ)
     auto nameRange(const std::string& from, const std::string& to) {
         return [=](const Spell& s) {
             return s.getName() >= from && s.getName() <= to;
             };
     }
 
-    // Предикат для выбора по диапазону затрат маны
+    // РџСЂРµРґРёРєР°С‚ РґР»СЏ РІС‹Р±РѕСЂР° РїРѕ РґРёР°РїР°Р·РѕРЅСѓ Р·Р°С‚СЂР°С‚ РјР°РЅС‹
     auto manaRange(int min, int max) {
         return [=](const Spell& s) {
             return s.getMana() >= min && s.getMana() <= max;
             };
     }
 
-    // Предикат для выбора заклинаний определённой стихии
+    // РџСЂРµРґРёРєР°С‚ РґР»СЏ РІС‹Р±РѕСЂР° Р·Р°РєР»РёРЅР°РЅРёР№ РѕРїСЂРµРґРµР»С‘РЅРЅРѕР№ СЃС‚РёС…РёРё
     auto byElement(Element elem) {
         return [=](const Spell& s) {
             return s.getElement() == elem;
             };
     }
 
-    // Предикат для выбора заклинаний, доступных на заданном уровне
+    // РџСЂРµРґРёРєР°С‚ РґР»СЏ РІС‹Р±РѕСЂР° Р·Р°РєР»РёРЅР°РЅРёР№, РґРѕСЃС‚СѓРїРЅС‹С… РЅР° Р·Р°РґР°РЅРЅРѕРј СѓСЂРѕРІРЅРµ
     auto availableAtLevel(int level) {
         return [=](const Spell& s) {
             return s.getMinLevel() <= level;
             };
     }
 
-    // Предикат для выбора заклинаний, доступных в указанное время
+    // РџСЂРµРґРёРєР°С‚ РґР»СЏ РІС‹Р±РѕСЂР° Р·Р°РєР»РёРЅР°РЅРёР№, РґРѕСЃС‚СѓРїРЅС‹С… РІ СѓРєР°Р·Р°РЅРЅРѕРµ РІСЂРµРјСЏ
     auto atTime(std::chrono::minutes time) {
         return [=](const Spell& s) {
             return s.isAvailableAtTime(time);
@@ -208,37 +208,37 @@ export namespace filters
     }
 }
 
-// Вывод результатов фильтрации на экран с информативными сообщениями
+// Р’С‹РІРѕРґ СЂРµР·СѓР»СЊС‚Р°С‚РѕРІ С„РёР»СЊС‚СЂР°С†РёРё РЅР° СЌРєСЂР°РЅ СЃ РёРЅС„РѕСЂРјР°С‚РёРІРЅС‹РјРё СЃРѕРѕР±С‰РµРЅРёСЏРјРё
 export void displayFiltered(const SpellContainer<Spell>& filtered)
 {
     if (filtered.size() == 0) {
-        std::cout << "\n[Нет заклинаний, удовлетворяющих критериям]\n";
+        std::cout << "\n[РќРµС‚ Р·Р°РєР»РёРЅР°РЅРёР№, СѓРґРѕРІР»РµС‚РІРѕСЂСЏСЋС‰РёС… РєСЂРёС‚РµСЂРёСЏРј]\n";
         return;
     }
 
-    std::cout << "\n=== Найдено заклинаний: " << filtered.size() << " ===\n";
+    std::cout << "\n=== РќР°Р№РґРµРЅРѕ Р·Р°РєР»РёРЅР°РЅРёР№: " << filtered.size() << " ===\n";
     for (size_t i = 0; i < filtered.size(); ++i) {
         const Spell* spell = filtered.at(i);
         if (spell) {
             spell->printConsole(std::cout);
         }
     }
-    std::cout << "=== Конец списка ===\n";
+    std::cout << "=== РљРѕРЅРµС† СЃРїРёСЃРєР° ===\n";
 }
 
 //================================================================================
 
-// Печать доступных книг
+// РџРµС‡Р°С‚СЊ РґРѕСЃС‚СѓРїРЅС‹С… РєРЅРёРі
 export void printBooks(Sorcerer& sorcererr)
 {
-    std::cout << "Доступные книги:\n";
+    std::cout << "Р”РѕСЃС‚СѓРїРЅС‹Рµ РєРЅРёРіРё:\n";
     for (size_t i = 0; i < sorcererr.getBookCount(); ++i) {
         std::cout << i << ". " << sorcererr.getBookName(i)
-            << " (" << sorcererr.getBook(i).size() << " заклинаний)\n";
+            << " (" << sorcererr.getBook(i).size() << " Р·Р°РєР»РёРЅР°РЅРёР№)\n";
     }
 }
 
-// Печать заклинаний конкретной книги
+// РџРµС‡Р°С‚СЊ Р·Р°РєР»РёРЅР°РЅРёР№ РєРѕРЅРєСЂРµС‚РЅРѕР№ РєРЅРёРіРё
 export void printBookSpells(Sorcerer& sorcererr, int& b_idx)
 {
     std::cout << "\n--- " << sorcererr.getBookName(b_idx) << " ---\n";
@@ -248,20 +248,20 @@ export void printBookSpells(Sorcerer& sorcererr, int& b_idx)
     }
 }
 
-// Валидация индексов книг и заклинаний
+// Р’Р°Р»РёРґР°С†РёСЏ РёРЅРґРµРєСЃРѕРІ РєРЅРёРі Рё Р·Р°РєР»РёРЅР°РЅРёР№
 export bool getIndexes(Sorcerer& sorcererr, int& b_idx)
 {
-    if (sorcererr.getBookCount() == 0) { std::cout << "Нет книг.\n"; return false; }
+    if (sorcererr.getBookCount() == 0) { std::cout << "РќРµС‚ РєРЅРёРі.\n"; return false; }
     printBooks(sorcererr);
-    b_idx = readIntInRange("Индекс книги: ", 0, sorcererr.getBookCount() - 1);
+    b_idx = readIntInRange("РРЅРґРµРєСЃ РєРЅРёРіРё: ", 0, sorcererr.getBookCount() - 1);
     return true;
 }
 
 export bool getIndexes(Sorcerer& sorcererr, int& b_idx, int& s_idx)
 {
     if (!getIndexes(sorcererr, b_idx)) return false;
-    if (sorcererr.getBook(b_idx).size() == 0) { std::cout << "Книга пуста.\n"; return false; }
+    if (sorcererr.getBook(b_idx).size() == 0) { std::cout << "РљРЅРёРіР° РїСѓСЃС‚Р°.\n"; return false; }
     printBookSpells(sorcererr, b_idx);
-    s_idx = readIntInRange("Индекс заклинания: ", 0, sorcererr.getBook(b_idx).size() - 1);
+    s_idx = readIntInRange("РРЅРґРµРєСЃ Р·Р°РєР»РёРЅР°РЅРёСЏ: ", 0, sorcererr.getBook(b_idx).size() - 1);
     return true;
 }

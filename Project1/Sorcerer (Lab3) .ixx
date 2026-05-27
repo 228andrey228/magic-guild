@@ -13,8 +13,8 @@ import Spell__Lab2_;
 #include <array>
 export module Sorcerer__Lab3__;
 
-// ПРАВКА ВЫПОЛНЕНА
-// Отдельный класс книги со встроенным счётчиком
+// РџР РђР’РљРђ Р’Р«РџРћР›РќР•РќРђ
+// РћС‚РґРµР»СЊРЅС‹Р№ РєР»Р°СЃСЃ РєРЅРёРіРё СЃРѕ РІСЃС‚СЂРѕРµРЅРЅС‹Рј СЃС‡С‘С‚С‡РёРєРѕРј
 export class Book {
 private:
     std::string name_;
@@ -40,7 +40,7 @@ public:
     }
     size_t size() const { return spells_.size(); }
 
-    // Методы для удобства работы извне
+    // РњРµС‚РѕРґС‹ РґР»СЏ СѓРґРѕР±СЃС‚РІР° СЂР°Р±РѕС‚С‹ РёР·РІРЅРµ
     void addSpell(const Spell& s) { spells_.add(s); }
     bool removeSpell(size_t idx) { return spells_.removeByIndex(idx); }
     bool modifySpell(size_t idx, const Spell& new_s) { return spells_.changeElement(idx, new_s); }
@@ -55,7 +55,7 @@ private:
     int max_mana_;
     std::chrono::minutes current_time_;
 
-    // ПРАВКА ВЫПОЛНЕНА
+    // РџР РђР’РљРђ Р’Р«РџРћР›РќР•РќРђ
     /*std::vector<std::string> book_names_;
     std::vector<SpellContainer<Spell>> books_;
     std::map<size_t, int> book_cast_counts_;*/
@@ -68,11 +68,11 @@ private:
 public:
     Sorcerer();
 
-    // Управление книгами
+    // РЈРїСЂР°РІР»РµРЅРёРµ РєРЅРёРіР°РјРё
     bool addBook(const std::string& name);
     bool removeBook(size_t index);
 
-    // Управление заклинаниями
+    // РЈРїСЂР°РІР»РµРЅРёРµ Р·Р°РєР»РёРЅР°РЅРёСЏРјРё
     bool addSpell(size_t book_idx, const Spell& spell);
     bool removeSpell(size_t book_idx, size_t spell_idx);
     bool modifySpell(size_t book_idx, size_t spell_idx, const Spell& new_spell);
@@ -80,38 +80,38 @@ public:
     size_t getBookCount() const;
     std::string getBookName(size_t index) const;
 
-    // Магия и отдых
+    // РњР°РіРёСЏ Рё РѕС‚РґС‹С…
     bool castSpell(size_t book_idx, size_t spell_idx);
     void rest(int hours);
 
-    // Статистика
+    // РЎС‚Р°С‚РёСЃС‚РёРєР°
     void printStats() const;
 
-    // Сохранение/Загрузка
+    // РЎРѕС…СЂР°РЅРµРЅРёРµ/Р—Р°РіСЂСѓР·РєР°
     bool saveState(const std::string& filename) const;
     bool loadState(const std::string& filename);
 
-    // Геттеры
+    // Р“РµС‚С‚РµСЂС‹
     int getMana() const { return mana_; }
     int getMaxMana() const { return max_mana_; }
     std::chrono::minutes getTime() const { return current_time_; }
 };
 
-// Конструктор с начальными параметрами
+// РљРѕРЅСЃС‚СЂСѓРєС‚РѕСЂ СЃ РЅР°С‡Р°Р»СЊРЅС‹РјРё РїР°СЂР°РјРµС‚СЂР°РјРё
 Sorcerer::Sorcerer() : mana_(100), max_mana_(100), current_time_(0) {}
 
-// Добавление новой книги в коллекцию
+// Р”РѕР±Р°РІР»РµРЅРёРµ РЅРѕРІРѕР№ РєРЅРёРіРё РІ РєРѕР»Р»РµРєС†РёСЋ
 bool Sorcerer::addBook(const std::string& name)
 {
     for (const auto& b : library_) if (b.getName() == name) {
-        std::cout << "Книга с таким именем уже есть!\n";
+        std::cout << "РљРЅРёРіР° СЃ С‚Р°РєРёРј РёРјРµРЅРµРј СѓР¶Рµ РµСЃС‚СЊ!\n";
         return false;
     }
     library_.emplace_back(name);
     return true;
 }
 
-// Удаление книги по индексу
+// РЈРґР°Р»РµРЅРёРµ РєРЅРёРіРё РїРѕ РёРЅРґРµРєСЃСѓ
 bool Sorcerer::removeBook(size_t index)
 {
     if (index >= library_.size()) return false;
@@ -119,7 +119,7 @@ bool Sorcerer::removeBook(size_t index)
     return true;
 }
 
-// Добавление заклинания в конкретную книгу
+// Р”РѕР±Р°РІР»РµРЅРёРµ Р·Р°РєР»РёРЅР°РЅРёСЏ РІ РєРѕРЅРєСЂРµС‚РЅСѓСЋ РєРЅРёРіСѓ
 bool Sorcerer::addSpell(size_t book_idx, const Spell& spell)
 {
     if (book_idx >= library_.size()) return false;
@@ -127,21 +127,21 @@ bool Sorcerer::addSpell(size_t book_idx, const Spell& spell)
     return true;
 }
 
-// Удаление заклинания из книги по индексу
+// РЈРґР°Р»РµРЅРёРµ Р·Р°РєР»РёРЅР°РЅРёСЏ РёР· РєРЅРёРіРё РїРѕ РёРЅРґРµРєСЃСѓ
 bool Sorcerer::removeSpell(size_t book_idx, size_t spell_idx)
 {
     if (book_idx >= library_.size()) return false;
     return library_[book_idx].removeSpell(spell_idx);
 }
 
-// Изменение заклинания в книге
+// РР·РјРµРЅРµРЅРёРµ Р·Р°РєР»РёРЅР°РЅРёСЏ РІ РєРЅРёРіРµ
 bool Sorcerer::modifySpell(size_t book_idx, size_t spell_idx, const Spell& new_spell)
 {
     if (book_idx >= library_.size()) return false;
     return library_[book_idx].modifySpell(spell_idx, new_spell);
 }
 
-// Получение контейнера книги для чтения/фильтрации
+// РџРѕР»СѓС‡РµРЅРёРµ РєРѕРЅС‚РµР№РЅРµСЂР° РєРЅРёРіРё РґР»СЏ С‡С‚РµРЅРёСЏ/С„РёР»СЊС‚СЂР°С†РёРё
 SpellContainer<Spell>& Sorcerer::getBook(size_t index)
 {
     return library_.at(index).getSpells();
@@ -157,7 +157,7 @@ std::string Sorcerer::getBookName(size_t index) const
     return library_.at(index).getName();
 }
 
-// Применение заклинания с проверкой маны и времени
+// РџСЂРёРјРµРЅРµРЅРёРµ Р·Р°РєР»РёРЅР°РЅРёСЏ СЃ РїСЂРѕРІРµСЂРєРѕР№ РјР°РЅС‹ Рё РІСЂРµРјРµРЅРё
 bool Sorcerer::castSpell(size_t book_idx, size_t spell_idx)
 {
     if (book_idx >= library_.size()) return false;
@@ -165,20 +165,20 @@ bool Sorcerer::castSpell(size_t book_idx, size_t spell_idx)
     if (!spell) return false;
 
     if (mana_ < spell->getMana()) {
-        std::cout << "Недостаточно маны! Требуется: " << spell->getMana() << ", есть: " << mana_ << '\n';
+        std::cout << "РќРµРґРѕСЃС‚Р°С‚РѕС‡РЅРѕ РјР°РЅС‹! РўСЂРµР±СѓРµС‚СЃСЏ: " << spell->getMana() << ", РµСЃС‚СЊ: " << mana_ << '\n';
         return false;
     }
     if (!spell->isAvailableAtTime(current_time_)) {
-        std::cout << "Заклинание недоступно в текущее время суток ("
+        std::cout << "Р—Р°РєР»РёРЅР°РЅРёРµ РЅРµРґРѕСЃС‚СѓРїРЅРѕ РІ С‚РµРєСѓС‰РµРµ РІСЂРµРјСЏ СЃСѓС‚РѕРє ("
             << Spell::minutesToString(current_time_) << ")\n";
         return false;
     }
 
     mana_ -= spell->getMana();
-    current_time_ += std::chrono::minutes(15); // Каст занимает время
+    current_time_ += std::chrono::minutes(15); // РљР°СЃС‚ Р·Р°РЅРёРјР°РµС‚ РІСЂРµРјСЏ
     ++library_[book_idx];
     elem_cast_counts_[static_cast<int>(spell->getElement()) - 1]++;
-    std::cout << "Заклинание '" << spell->getName() << "' успешно применено!\n";
+    std::cout << "Р—Р°РєР»РёРЅР°РЅРёРµ '" << spell->getName() << "' СѓСЃРїРµС€РЅРѕ РїСЂРёРјРµРЅРµРЅРѕ!\n";
     return true;
 }
 
@@ -190,71 +190,71 @@ export int manaMin(int a, int b)
         return b;
 }
 
-// Отдых для восстановления маны
+// РћС‚РґС‹С… РґР»СЏ РІРѕСЃСЃС‚Р°РЅРѕРІР»РµРЅРёСЏ РјР°РЅС‹
 void Sorcerer::rest(int hours)
 {
     if (hours <= 0) return;
     current_time_ += std::chrono::hours(hours);
-    int restored = hours * 10; // 10 маны за час
+    int restored = hours * 10; // 10 РјР°РЅС‹ Р·Р° С‡Р°СЃ
     mana_ = manaMin(mana_ + restored, max_mana_);
-    std::cout << "Вы отдохнули " << hours << " ч. Время: "
+    std::cout << "Р’С‹ РѕС‚РґРѕС…РЅСѓР»Рё " << hours << " С‡. Р’СЂРµРјСЏ: "
         << Spell::minutesToString(current_time_)
-        << ". Мана: " << mana_ << "/" << max_mana_ << '\n';
+        << ". РњР°РЅР°: " << mana_ << "/" << max_mana_ << '\n';
 }
 
-// Вывод статистики использования
+// Р’С‹РІРѕРґ СЃС‚Р°С‚РёСЃС‚РёРєРё РёСЃРїРѕР»СЊР·РѕРІР°РЅРёСЏ
 void Sorcerer::printStats() const
 {
-    std::cout << "\n=== Статистика чародея ===\n";
-    std::cout << "Мана: " << mana_ << "/" << max_mana_ << '\n';
-    std::cout << "Текущее время: " << Spell::minutesToString(current_time_) << "\n\n";
+    std::cout << "\n=== РЎС‚Р°С‚РёСЃС‚РёРєР° С‡Р°СЂРѕРґРµСЏ ===\n";
+    std::cout << "РњР°РЅР°: " << mana_ << "/" << max_mana_ << '\n';
+    std::cout << "РўРµРєСѓС‰РµРµ РІСЂРµРјСЏ: " << Spell::minutesToString(current_time_) << "\n\n";
 
-    std::cout << "[По книгам]\n";
-    if (library_.empty()) std::cout << "  Заклинания не применялись\n";
+    std::cout << "[РџРѕ РєРЅРёРіР°Рј]\n";
+    if (library_.empty()) std::cout << "  Р—Р°РєР»РёРЅР°РЅРёСЏ РЅРµ РїСЂРёРјРµРЅСЏР»РёСЃСЊ\n";
     else {
         for (size_t i = 0; i < library_.size(); ++i) {
-            std::cout << "  " << library_[i].getName() << ": " << library_[i].getCastCount() << " раз\n";
+            std::cout << "  " << library_[i].getName() << ": " << library_[i].getCastCount() << " СЂР°Р·\n";
         }
     }
 
-    std::cout << "\n[По стихиям]\n";
+    std::cout << "\n[РџРѕ СЃС‚РёС…РёСЏРј]\n";
     bool used = false;
     for (int i = 0; i < 4; ++i) {
         if (elem_cast_counts_[i] > 0) {
-            std::cout << "  " << ELEMENT_NAMES[i] << ": " << elem_cast_counts_[i] << " раз\n";
+            std::cout << "  " << ELEMENT_NAMES[i] << ": " << elem_cast_counts_[i] << " СЂР°Р·\n";
             used = true;
         }
     }
-    if (!used) std::cout << "  Стихии не использовались\n";
+    if (!used) std::cout << "  РЎС‚РёС…РёРё РЅРµ РёСЃРїРѕР»СЊР·РѕРІР°Р»РёСЃСЊ\n";
     std::cout << "==========================\n";
 }
 
-// Сохранение состояния на диск
+// РЎРѕС…СЂР°РЅРµРЅРёРµ СЃРѕСЃС‚РѕСЏРЅРёСЏ РЅР° РґРёСЃРє
 bool Sorcerer::saveState(const std::string& filename) const
 {
     std::ofstream out(filename);
     if (!out.is_open()) return false;
 
-    // Заголовок состояния
+    // Р—Р°РіРѕР»РѕРІРѕРє СЃРѕСЃС‚РѕСЏРЅРёСЏ
     out << mana_ << ' ' << max_mana_ << ' ' << current_time_.count() << '\n';
     out << library_.size() << '\n';
 
-    // Сохранение книг и заклинаний
+    // РЎРѕС…СЂР°РЅРµРЅРёРµ РєРЅРёРі Рё Р·Р°РєР»РёРЅР°РЅРёР№
     for (const auto& book : library_) {
         out << book.getName() << '\n';
         out << book.size() << '\n';
-        book.getSpells().print(out); // Вывод заклинаний в формате файла
+        book.getSpells().print(out); // Р’С‹РІРѕРґ Р·Р°РєР»РёРЅР°РЅРёР№ РІ С„РѕСЂРјР°С‚Рµ С„Р°Р№Р»Р°
         out << book.getCastCount() << '\n';
     }
 
-    // Сохранение статистики стихий
+    // РЎРѕС…СЂР°РЅРµРЅРёРµ СЃС‚Р°С‚РёСЃС‚РёРєРё СЃС‚РёС…РёР№
     for (int count : elem_cast_counts_) out << count << ' ';
     out << '\n';
 
     return out.good();
 }
 
-// Загрузка состояния с диска
+// Р—Р°РіСЂСѓР·РєР° СЃРѕСЃС‚РѕСЏРЅРёСЏ СЃ РґРёСЃРєР°
 bool Sorcerer::loadState(const std::string& filename)
 {
     std::ifstream in(filename);
@@ -286,7 +286,7 @@ bool Sorcerer::loadState(const std::string& filename)
         library_.push_back(std::move(b));
     }
 
-    // Загрузка статистики стихий
+    // Р—Р°РіСЂСѓР·РєР° СЃС‚Р°С‚РёСЃС‚РёРєРё СЃС‚РёС…РёР№
     for (int i = 0; i < 4; ++i) {
         if (!(in >> elem_cast_counts_[i])) return false;
     }
