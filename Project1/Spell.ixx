@@ -10,7 +10,7 @@ module;
 #include <map>
 #include <chrono>
 #include <array>
-export module Spell__Lab2_;
+export module Spell;
 
 // Перечисление стихий заклинаний
 export enum class Element : int
@@ -21,9 +21,8 @@ export enum class Element : int
     FIRE = 4
 };
 
-// ПРАВКА ВЫПОЛНЕНА
 export std::array<std::string, 4> ELEMENT_NAMES = { "Вода", "Земля", "Воздух", "Огонь" };
-// ---
+
 
 // Структура заклинания
 export struct Spell

@@ -124,15 +124,17 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="Sorcerer (Lab3) .ixx" />
-    <ClCompile Include="Spell %28Lab2%29.ixx" />
+    <ClCompile Include="Book.ixx" />
+    <ClCompile Include="Sorcerer.ixx" />
+    <ClCompile Include="Spell.ixx" />
     <ClCompile Include="Tools.ixx" />
-    <ClCompile Include="Лабораторная 2.cpp" />
+    <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="1.txt" />
     <Text Include="2.txt" />
     <Text Include="sorcerer_save.txt" />
+    <Text Include="TASKS.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

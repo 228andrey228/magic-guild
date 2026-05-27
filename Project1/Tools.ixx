@@ -1,18 +1,12 @@
 module;
-import Spell__Lab2_;
-import Sorcerer__Lab3__;
+import Spell;
+import Book;
+import Sorcerer;
 #include <iostream>
 #include <fstream>
-#include <functional>
-#include <random>
 #include <string>
 #include <algorithm>
-#include <iterator>
-#include <vector>
-#include <map>
 #include <chrono>
-#include <array>
-#include <Windows.h>
 export module Tools;
 
 // Очистка состояния потока ввода после ошибки
@@ -151,10 +145,6 @@ export Spell readSpellFromConsole()
 export namespace filters
 {
     // Компаратор для сортировки по названию в алфавитном порядке
-    /*auto byName = [](const Spell& a, const Spell& b) {
-        return a.getName() < b.getName();
-        };*/
-
     auto byName() {
         return [](const Spell& a, const Spell& b) {
             return a.getName() < b.getName();
@@ -162,10 +152,6 @@ export namespace filters
     }
 
     // Компаратор для сортировки по минимальному уровню по возрастанию
-    /*auto byMinLevel = [](const Spell& a, const Spell& b) {
-        return a.getMinLevel() < b.getMinLevel();
-        };*/
-
     auto byMinLevel() {
         return [](const Spell& a, const Spell& b) {
             return a.getMinLevel() < b.getMinLevel();
@@ -226,6 +212,38 @@ export void displayFiltered(const SpellContainer<Spell>& filtered)
     std::cout << "=== Конец списка ===\n";
 }
 
+// Интерактивный выбор фильтра и его применение к контейнеру книги
+export void filterBook(SpellContainer<Spell>& book)
+{
+    std::cout << "Критерий выборки:\n1. Название\n2. Мана\n3. Стихия\n4. Уровень\n5. Время\n";
+    int choice = readIntInRange("Выбор: ", 1, 5);
+
+    switch (choice) {
+    case 1: {
+        std::cout << "Диапазон названий (лексикографический):\n";
+        auto from = readNonEmptyString("От: ");
+        auto to = readNonEmptyString("До: ");
+        displayFiltered(book.select(filters::nameRange(from, to)));
+        break;
+    }
+    case 2: {
+        int mn = readIntInRange("Мана от", 0, 10000);
+        int mx = readIntInRange("Мана до", mn, 10000);
+        displayFiltered(book.select(filters::manaRange(mn, mx)));
+        break;
+    }
+    case 3:
+        displayFiltered(book.select(filters::byElement(readElement())));
+        break;
+    case 4:
+        displayFiltered(book.select(filters::availableAtLevel(readIntInRange("Уровень чародея", 1, 100))));
+        break;
+    case 5:
+        displayFiltered(book.select(filters::atTime(readTime())));
+        break;
+    }
+}
+
 //================================================================================
 
 // Печать доступных книг
@@ -253,7 +271,7 @@ export bool getIndexes(Sorcerer& sorcererr, int& b_idx)
 {
     if (sorcererr.getBookCount() == 0) { std::cout << "Нет книг.\n"; return false; }
     printBooks(sorcererr);
-    b_idx = readIntInRange("Индекс книги: ", 0, sorcererr.getBookCount() - 1);
+    b_idx = readIntInRange("Индекс книги: ", 0, static_cast<int>(sorcererr.getBookCount()) - 1);
     return true;
 }
 
@@ -262,6 +280,6 @@ export bool getIndexes(Sorcerer& sorcererr, int& b_idx, int& s_idx)
     if (!getIndexes(sorcererr, b_idx)) return false;
     if (sorcererr.getBook(b_idx).size() == 0) { std::cout << "Книга пуста.\n"; return false; }
     printBookSpells(sorcererr, b_idx);
-    s_idx = readIntInRange("Индекс заклинания: ", 0, sorcererr.getBook(b_idx).size() - 1);
+    s_idx = readIntInRange("Индекс заклинания: ", 0, static_cast<int>(sorcererr.getBook(b_idx).size()) - 1);
     return true;
 }
