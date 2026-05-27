@@ -54,8 +54,8 @@ public:
     void printStats() const;
 
     // Сохранение/Загрузка
-    bool saveState(const std::string& filename) const;
-    bool loadState(const std::string& filename);
+    void saveState(std::ofstream& out) const;
+    bool loadState(std::ifstream& in);
 
     // Геттеры
     int getMana() const { return mana_; }
@@ -207,11 +207,8 @@ void Sorcerer::printStats() const
 }
 
 // Сохранение состояния на диск
-bool Sorcerer::saveState(const std::string& filename) const
+void Sorcerer::saveState(std::ofstream& out) const
 {
-    std::ofstream out(filename);
-    if (!out.is_open()) return false;
-
     // Заголовок состояния
     out << name_ << '\n';
     out << mana_ << ' ' << max_mana_ << ' ' << current_time_.count() << '\n';
@@ -228,16 +225,11 @@ bool Sorcerer::saveState(const std::string& filename) const
     // Сохранение статистики стихий
     for (int count : elem_cast_counts_) out << count << ' ';
     out << '\n';
-
-    return out.good();
 }
 
 // Загрузка состояния с диска
-bool Sorcerer::loadState(const std::string& filename)
+bool Sorcerer::loadState(std::ifstream& in)
 {
-    std::ifstream in(filename);
-    if (!in.is_open()) return false;
-
     std::string s_name;
     if (!std::getline(in >> std::ws, s_name)) return false;
     name_ = s_name;

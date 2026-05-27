@@ -7,7 +7,7 @@ import Tools;
 #include <Windows.h>
 
 // Имя файла для автосохранения
-const std::string SAVE_FILE = "sorcerer_save.txt";
+const std::string SAVE_FILE = "guild_save.txt";
 
 
 // ============================ Меню чародея ====================================
@@ -28,7 +28,6 @@ namespace sorcerer
         CAST_SPELL,
         REST,
         VIEW_STATS,
-        SAVE_MANUALLY,
         EXIT
     };
 
@@ -46,15 +45,14 @@ namespace sorcerer
         std::cout << "8.  Применить заклинание (колдовать)\n";
         std::cout << "9.  Отдохнуть (восстановить ману)\n";
         std::cout << "10. Статистика использования\n";
-        std::cout << "11. Сохранить прогресс вручную\n";
-        std::cout << "12. Выход (авто-сохранение)\n";
+        std::cout << "11. Выход (авто-сохранение)\n";
 
         while (true) {
             int choice = readInt("Выберите пункт: ");
-            if (choice >= 1 && choice <= 12) {
+            if (choice >= 1 && choice <= 11) {
                 return static_cast<MenuOption>(choice);
             }
-            std::cout << "Ошибка: выберите пункт от 1 до 12.\n";
+            std::cout << "Ошибка: выберите пункт от 1 до 11.\n";
         }
     }
 
@@ -140,14 +138,6 @@ namespace sorcerer
         case MenuOption::VIEW_STATS: // Статистика
         {
             sorcererr.printStats();
-            break;
-        }
-
-        case MenuOption::SAVE_MANUALLY: // Ручное сохранение
-        {
-            auto filename = readFilename();
-            if (sorcererr.saveState(filename)) std::cout << "Сохранено.\n";
-            else std::cout << "Ошибка сохранения.\n";
             break;
         }
 
@@ -270,11 +260,21 @@ int main()
 
     Guild guild("Орден Пепла");
 
+    if (guild.loadState(SAVE_FILE))
+        std::cout << "Гильдия загружена: [" << guild.getName() << "], членов: " << guild.size() << '\n';
+    else
+        std::cout << "Новая гильдия [" << guild.getName() << "] создана.\n";
+
     guild_ui::MenuOption opt{};
     do {
         opt = guild_ui::showMenu(guild);
         guild_ui::executeOption(guild, opt);
     } while (opt != guild_ui::MenuOption::EXIT);
+
+    if (guild.saveState(SAVE_FILE))
+        std::cout << "Гильдия сохранена.\n";
+    else
+        std::cout << "Ошибка сохранения!\n";
 
     return 0;
 }
