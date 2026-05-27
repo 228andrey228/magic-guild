@@ -18,6 +18,8 @@ export module Sorcerer;
 export class Sorcerer
 {
 private:
+    std::string name_;
+
     int mana_;
     int max_mana_;
     std::chrono::minutes current_time_;
@@ -58,6 +60,16 @@ public:
     int getMana() const { return mana_; }
     int getMaxMana() const { return max_mana_; }
     std::chrono::minutes getTime() const { return current_time_; }
+
+    // Геттер имени
+    const std::string& getName() const { return name_; }
+
+    // Сеттер имени (нужен для переименования в гильдии)
+    void setName(const std::string& name) { name_ = name; }
+
+    // Сравнение по имени (нужно для std::map/std::set)
+    bool operator==(const Sorcerer& other) const { return name_ == other.name_; }
+    bool operator< (const Sorcerer& other) const { return name_ < other.name_; }
 };
 
 // Конструктор с начальными параметрами
@@ -168,7 +180,7 @@ void Sorcerer::rest(int hours)
 // Вывод статистики использования
 void Sorcerer::printStats() const
 {
-    std::cout << "\n=== Статистика чародея ===\n";
+    std::cout << "\n=== Статистика чародея [" << name_ << "] ===\n";
     std::cout << "Мана: " << mana_ << "/" << max_mana_ << '\n';
     std::cout << "Текущее время: " << Spell::minutesToString(current_time_) << "\n\n";
 
@@ -199,6 +211,7 @@ bool Sorcerer::saveState(const std::string& filename) const
     if (!out.is_open()) return false;
 
     // Заголовок состояния
+    out << name_ << '\n';
     out << mana_ << ' ' << max_mana_ << ' ' << current_time_.count() << '\n';
     out << library_.size() << '\n';
 
@@ -222,6 +235,10 @@ bool Sorcerer::loadState(const std::string& filename)
 {
     std::ifstream in(filename);
     if (!in.is_open()) return false;
+
+    std::string s_name;
+    if (!std::getline(in >> std::ws, s_name)) return false;
+    name_ = s_name;
 
     int m, max_m, time_min;
     if (!(in >> m >> max_m >> time_min)) return false;

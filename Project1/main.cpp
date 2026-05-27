@@ -168,7 +168,7 @@ int main()
 
     // Автоматическая загрузка состояния при старте
     if (sorcerer.loadState(SAVE_FILE)) {
-        std::cout << "Прогресс восстановлен. Мана: " << sorcerer.getMana()
+        std::cout << "Прогресс чародея [" << sorcerer.getName() << "] восстановлен. Мана: " << sorcerer.getMana()
             << ", Время: " << Spell::minutesToString(sorcerer.getTime()) << '\n';
     }
     else {
