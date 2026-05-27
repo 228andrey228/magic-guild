@@ -4,6 +4,7 @@ import Sorcerer;
 #include <iostream>
 #include <string>
 #include <set>
+#include <iterator>
 #include <array>
 export module Guild;
 
@@ -115,6 +116,15 @@ public:
 
     // Статистика по гильдии
     void printStats() const;
+
+    // Получить чародея по порядковому номеру
+    Sorcerer* getMemberByIndex(size_t index)
+    {
+        if (index >= members_.size()) return nullptr;
+        // аналог begin + n
+        auto it = std::next(members_.begin(), static_cast<std::ptrdiff_t>(index));
+        return const_cast<Sorcerer*>(&*it); // имя не меняем
+    }
 };
 
 bool Guild::saveState(const std::string& filename) const

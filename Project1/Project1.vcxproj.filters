@@ -41,10 +41,10 @@
     <Text Include="2.txt">
       <Filter>Файлы ресурсов</Filter>
     </Text>
-    <Text Include="sorcerer_save.txt">
+    <Text Include="TASKS.txt">
       <Filter>Файлы ресурсов</Filter>
     </Text>
-    <Text Include="TASKS.txt">
+    <Text Include="guild_save.txt">
       <Filter>Файлы ресурсов</Filter>
     </Text>
   </ItemGroup>

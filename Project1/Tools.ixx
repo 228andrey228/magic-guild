@@ -292,14 +292,12 @@ export bool getIndexes(Sorcerer& sorcererr, int& b_idx, int& s_idx)
 
 //================================================================================
 
-// Запросить у пользователя имя существующего чародея
+// Запросить у пользователя номер существующего чародея в таблице
 // Возвращает указатель на чародея или nullptr
 export Sorcerer* selectMember(Guild& g)
 {
     if (g.size() == 0) { std::cout << "Гильдия пуста.\n"; return nullptr; }
     g.printMembers();
-    std::string name = readNonEmptyString("Имя чародея: ");
-    Sorcerer* sr = g.getMember(name);
-    if (!sr) std::cout << "Чародей '" << name << "' не найден.\n";
-    return sr;
+    int idx = readIntInRange("Номер чародея", 1, static_cast<int>(g.size()));
+    return g.getMemberByIndex(static_cast<size_t>(idx - 1));
 }
