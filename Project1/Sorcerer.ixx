@@ -71,6 +71,12 @@ public:
     // Сравнение по имени (нужно для std::map)
     bool operator==(const Sorcerer& other) const { return name_ == other.name_; }
     bool operator< (const Sorcerer& other) const { return name_ < other.name_; }
+
+    // Геттер библиотеки книг
+    const std::vector<Book>& getLib() const { return library_; }
+
+    // Геттер массива использованных стихий
+    const std::array<int, 4>& getElemCounts() const { return elem_cast_counts_; }
 };
 
 // Конструктор с начальными параметрами

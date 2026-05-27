@@ -112,6 +112,9 @@ public:
     // Сохранение и загрузка гильдии
     bool saveState(const std::string& filename) const;
     bool loadState(const std::string& filename);
+
+    // Статистика по гильдии
+    void printStats() const;
 };
 
 bool Guild::saveState(const std::string& filename) const
@@ -151,4 +154,54 @@ bool Guild::loadState(const std::string& filename)
     }
 
     return in.eof() || in.good();
+}
+
+void Guild::printStats() const
+{
+    std::cout << "\n=== Статистика гильдии [" << name_ << "] ===\n";
+    std::cout << "Членов: " << members_.size() << "\n\n";
+
+    // Суммарные счётчики по всем чародеям
+    int total_casts = 0;                // всего применений заклинаний
+    std::array<int, 4> total_elem{ 0 };    // по стихиям
+
+    // Итерируемся по всем членам гильдии
+    for (const auto& sr : members_) {
+        std::cout << "   --- " << sr.getName() << " (мана: " << sr.getMana() << "/" << sr.getMaxMana() << ")\n";
+
+        // Считаем применения по книгам этого чародея
+        int member_casts = 0;
+        for (size_t i = 0; i < sr.getBookCount(); ++i) 
+        {
+            const Book& book = sr.getLib().at(i);
+            int cnt = book.getCastCount();
+            if (cnt > 0) member_casts += cnt;
+        }
+        std::cout << "   Использовано заклинаний: " << member_casts << "\n";
+        total_casts += member_casts;
+
+        // Накапливаем статистику стихий
+        const auto& ec = sr.getElemCounts();
+        for (int i = 0; i < 4; ++i)
+            total_elem[i] += ec[i];
+    }
+
+    // Итоговая сводка
+    std::cout << "\n[Итого по гильдии]\n";
+    if (total_casts == 0) std::cout << "  Заклинания не применялись.\n";
+    else
+    {
+        std::cout << "Всего заклинаний применено: " << total_casts << "\n";
+        std::cout << "[По стихиям]\n";
+
+        bool any = false;
+        for (int i = 0; i < 4; ++i) {
+            if (total_elem[i] > 0) {
+                std::cout << "  " << ELEMENT_NAMES[i] << ": " << total_elem[i] << " раз\n";
+                any = true;
+            }
+        }
+
+        std::cout << "==============================\n";
+    }
 }

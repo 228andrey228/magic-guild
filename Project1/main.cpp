@@ -45,7 +45,7 @@ namespace sorcerer
         std::cout << "8.  Применить заклинание (колдовать)\n";
         std::cout << "9.  Отдохнуть (восстановить ману)\n";
         std::cout << "10. Статистика использования\n";
-        std::cout << "11. Выход (авто-сохранение)\n";
+        std::cout << "11. Выход\n";
 
         while (true) {
             int choice = readInt("Выберите пункт: ");
@@ -175,7 +175,7 @@ namespace guild_ui
             << "4. Переименовать чародея\n"
             << "5. Управлять чародеем\n"
             << "6. Статистика гильдии\n"
-            << "7. Выход\n";
+            << "7. Выход  (авто-сохранение)\n";
 
         while (true) {
             int choice = readInt("Выберите пункт: ");
@@ -217,7 +217,8 @@ namespace guild_ui
             break;
         }
 
-        case MenuOption::RENAME_MEMBER: {
+        case MenuOption::RENAME_MEMBER: 
+        {
             Sorcerer* sr = selectMember(g);
             if (!sr) break;
             std::string old_name = sr->getName();
@@ -227,7 +228,8 @@ namespace guild_ui
             break;
         }
 
-        case MenuOption::MANAGE_MEMBER: {
+        case MenuOption::MANAGE_MEMBER: 
+        {
             // Выбрать чародея и войти в его личное меню
             Sorcerer* sr = selectMember(g);
             if (!sr) break;
@@ -241,7 +243,7 @@ namespace guild_ui
         }
 
         case MenuOption::VIEW_STATS:
-            // Пока заглушка — полная статистика будет на шаге 6
+            g.printStats();
             break;
 
         case MenuOption::EXIT:
